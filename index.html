@@ -6,73 +6,122 @@
   <title>CareerMove - Job Decision Analyzer</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto'; background: #f8f9fa; color: #333; }
+    body { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #0f0f1e; color: #e0e0e0; line-height: 1.6; }
     
-    .landing { min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-    .landing-content { max-width: 700px; color: white; }
-    .landing h1 { font-size: 56px; margin-bottom: 20px; font-weight: 700; }
-    .landing .tagline { font-size: 24px; margin-bottom: 15px; opacity: 0.95; }
-    .landing .subtitle { font-size: 18px; margin-bottom: 40px; opacity: 0.85; line-height: 1.6; }
-    .cta-button { display: inline-block; padding: 16px 48px; background: white; color: #667eea; font-size: 18px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-    .cta-button:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    /* LANDING PAGE */
+    .landing { min-height: 100vh; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); display: flex; align-items: center; justify-content: center; padding: 40px 20px; text-align: center; position: relative; overflow: hidden; }
+    .landing::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(76, 175, 255, 0.1) 0%, transparent 50%); pointer-events: none; }
+    .landing-content { max-width: 900px; color: #fff; position: relative; z-index: 1; }
+    .landing h1 { font-size: 72px; margin-bottom: 20px; font-weight: 900; background: linear-gradient(135deg, #4cb5ff 0%, #00d4ff 50%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; }
+    .landing .tagline { font-size: 28px; margin-bottom: 15px; font-weight: 700; color: #e0e0e0; }
+    .landing .subtitle { font-size: 18px; margin-bottom: 40px; color: #b0b0b0; line-height: 1.8; }
+    .cta-button { display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #00d4ff 0%, #4cb5ff 100%); color: #0f0f1e; font-size: 18px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 30px rgba(76, 181, 255, 0.3); }
+    .cta-button:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(76, 181, 255, 0.5); }
     
-    .how-it-works { margin-top: 80px; padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.2); }
-    .how-it-works h2 { font-size: 32px; margin-bottom: 40px; }
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: left; }
-    .step { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 12px; backdrop-filter: blur(10px); }
-    .step-number { display: inline-block; width: 40px; height: 40px; background: white; color: #667eea; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 18px; }
-    .step h3 { font-size: 20px; margin-bottom: 10px; }
-    .step p { opacity: 0.9; line-height: 1.6; }
+    .social-proof { margin-top: 50px; padding: 25px; background: rgba(76, 181, 255, 0.08); border-radius: 12px; border: 1px solid rgba(76, 181, 255, 0.2); backdrop-filter: blur(10px); }
+    .social-proof p { margin: 10px 0; font-size: 15px; color: #c0c0c0; }
     
-    .app-container { display: none; min-height: 100vh; background: #f8f9fa; padding: 20px; }
+    .how-it-works { margin-top: 100px; padding-top: 80px; border-top: 1px solid rgba(76, 181, 255, 0.2); }
+    .how-it-works h2 { font-size: 42px; margin-bottom: 50px; font-weight: 800; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+    .step { background: linear-gradient(135deg, rgba(76, 181, 255, 0.05) 0%, rgba(100, 255, 159, 0.05) 100%); padding: 35px; border-radius: 16px; text-align: left; border: 1px solid rgba(76, 181, 255, 0.2); transition: all 0.3s; }
+    .step:hover { transform: translateY(-5px); border-color: rgba(76, 181, 255, 0.4); background: linear-gradient(135deg, rgba(76, 181, 255, 0.1) 0%, rgba(100, 255, 159, 0.1) 100%); }
+    .step-number { display: inline-flex; width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #4cb5ff 100%); color: #0f0f1e; font-weight: 800; border-radius: 50%; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 22px; }
+    .step h3 { font-size: 22px; margin-bottom: 12px; font-weight: 700; color: #00d4ff; }
+    .step p { color: #a0a0a0; }
+    
+    .pain-points { margin-top: 100px; padding: 50px 40px; background: linear-gradient(135deg, rgba(233, 69, 96, 0.08) 0%, rgba(255, 107, 107, 0.08) 100%); border-radius: 16px; text-align: left; border: 1px solid rgba(233, 69, 96, 0.2); }
+    .pain-points h2 { font-size: 36px; margin-bottom: 30px; color: #ff6b6b; font-weight: 800; }
+    .pain-points p { margin-bottom: 20px; color: #c0c0c0; }
+    
+    .live-example { margin-top: 100px; padding-top: 80px; border-top: 1px solid rgba(76, 181, 255, 0.2); }
+    .live-example h2 { font-size: 42px; margin-bottom: 40px; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; }
+    .example-card { background: linear-gradient(135deg, rgba(76, 181, 255, 0.05) 0%, rgba(100, 255, 159, 0.05) 100%); padding: 30px; border-radius: 12px; text-align: left; margin-bottom: 20px; border: 1px solid rgba(76, 181, 255, 0.2); }
+    .example-card p { color: #c0c0c0; margin-bottom: 10px; }
+    .example-result { background: linear-gradient(135deg, rgba(100, 255, 159, 0.1) 0%, rgba(76, 181, 255, 0.1) 100%); padding: 25px; border-radius: 8px; text-align: center; margin-top: 20px; border: 1px solid rgba(100, 255, 159, 0.3); }
+    .example-result-text { font-size: 36px; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #64ff9f 0%, #00d4ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .example-result p { color: #a0a0a0; }
+    
+    .why-section { margin-top: 100px; padding-top: 80px; border-top: 1px solid rgba(76, 181, 255, 0.2); text-align: center; }
+    .why-section h2 { font-size: 42px; margin-bottom: 50px; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+    .feature { text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(76, 181, 255, 0.05) 0%, rgba(100, 255, 159, 0.05) 100%); border-radius: 12px; border: 1px solid rgba(76, 181, 255, 0.2); transition: all 0.3s; }
+    .feature:hover { border-color: rgba(76, 181, 255, 0.4); transform: translateY(-3px); }
+    .feature-icon { font-size: 40px; margin-bottom: 15px; }
+    .feature p { color: #a0a0a0; font-weight: 500; }
+    .feature strong { color: #00d4ff; }
+    
+    .faq { margin-top: 100px; padding-top: 80px; border-top: 1px solid rgba(76, 181, 255, 0.2); }
+    .faq h2 { font-size: 42px; margin-bottom: 50px; text-align: center; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; }
+    .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .faq-item { background: linear-gradient(135deg, rgba(76, 181, 255, 0.05) 0%, rgba(100, 255, 159, 0.05) 100%); padding: 25px; border-radius: 12px; border: 1px solid rgba(76, 181, 255, 0.2); text-align: left; }
+    .faq-item strong { display: block; margin-bottom: 10px; color: #00d4ff; font-size: 16px; }
+    .faq-item p { color: #a0a0a0; }
+    
+    .final-cta { margin-top: 100px; padding: 60px 40px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(100, 255, 159, 0.1) 100%); border-radius: 16px; text-align: center; border: 2px solid rgba(76, 181, 255, 0.3); }
+    .final-cta h2 { font-size: 40px; margin-bottom: 15px; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; }
+    .final-cta p { color: #b0b0b0; margin-bottom: 30px; }
+    
+    /* APP SCREENS */
+    .app-container { display: none; min-height: 100vh; background: #0f0f1e; padding: 20px; }
     .app-container.show { display: block; }
+    .app-content { max-width: 700px; margin: 0 auto; background: #1a1a2e; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); padding: 40px; border: 1px solid rgba(76, 181, 255, 0.2); }
+    .app-header { display: flex; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(76, 181, 255, 0.2); }
+    .back-button { background: none; border: none; font-size: 28px; cursor: pointer; margin-right: 15px; color: #00d4ff; padding: 0; transition: 0.3s; }
+    .back-button:hover { transform: scale(1.1); }
+    .app-header h1 { font-size: 28px; margin: 0; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     
-    .app-content { max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 40px; }
-    .app-header { display: flex; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
-    .back-button { background: none; border: none; font-size: 24px; cursor: pointer; margin-right: 15px; color: #667eea; }
-    .app-header h1 { font-size: 28px; margin: 0; }
-    
-    h1 { font-size: 32px; color: #333; margin-bottom: 8px; }
-    .subtitle { color: #666; margin-bottom: 30px; font-size: 14px; }
+    h1 { font-size: 32px; color: #e0e0e0; margin-bottom: 8px; }
+    .subtitle { color: #a0a0a0; margin-bottom: 30px; font-size: 14px; }
     .section { margin-bottom: 30px; }
-    .section h2 { font-size: 18px; color: #333; margin-bottom: 15px; font-weight: 600; }
+    .section h2 { font-size: 18px; color: #00d4ff; margin-bottom: 15px; font-weight: 700; }
     .form-group { margin-bottom: 15px; }
-    label { display: block; font-size: 14px; font-weight: 500; color: #555; margin-bottom: 5px; }
-    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit; }
-    input:focus, select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+    label { display: block; font-size: 14px; font-weight: 600; color: #c0c0c0; margin-bottom: 8px; }
+    input, select { width: 100%; padding: 12px; border: 1px solid rgba(76, 181, 255, 0.3); background: rgba(76, 181, 255, 0.05); border-radius: 8px; font-size: 14px; font-family: inherit; color: #e0e0e0; transition: all 0.3s; }
+    input::placeholder { color: #606070; }
+    input:focus, select:focus { outline: none; border-color: #00d4ff; background: rgba(76, 181, 255, 0.1); box-shadow: 0 0 0 3px rgba(76, 181, 255, 0.15); }
     
     .slider-container { display: flex; align-items: center; gap: 15px; }
-    input[type="range"] { flex: 1; cursor: pointer; }
-    .slider-value { min-width: 30px; text-align: center; font-weight: 600; color: #667eea; }
+    input[type="range"] { flex: 1; cursor: pointer; accent-color: #00d4ff; }
+    .slider-value { min-width: 40px; text-align: center; font-weight: 700; color: #64ff9f; background: rgba(100, 255, 159, 0.1); padding: 4px 8px; border-radius: 6px; }
     
     .button-row { display: flex; gap: 10px; margin-top: 30px; }
-    button { flex: 1; padding: 12px 24px; font-size: 16px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-    .btn-primary { background: #667eea; color: white; }
-    .btn-primary:hover { background: #5568d3; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2); }
-    .btn-secondary { background: #f0f0f0; color: #333; }
-    .btn-secondary:hover { background: #e0e0e0; }
+    button { flex: 1; padding: 13px 24px; font-size: 16px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+    .btn-primary { background: linear-gradient(135deg, #00d4ff 0%, #4cb5ff 100%); color: #0f0f1e; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76, 181, 255, 0.3); }
+    .btn-secondary { background: rgba(76, 181, 255, 0.1); color: #00d4ff; border: 1px solid rgba(76, 181, 255, 0.3); }
+    .btn-secondary:hover { background: rgba(76, 181, 255, 0.2); }
     
-    .recommendation { font-size: 48px; font-weight: 700; margin: 20px 0; padding: 20px; border-radius: 8px; }
-    .recommendation.take { background: #d4edda; color: #155724; }
-    .recommendation.pass { background: #f8d7da; color: #721c24; }
-    .recommendation.negotiate { background: #fff3cd; color: #856404; }
-    .score { font-size: 24px; font-weight: 600; color: #333; margin: 15px 0; }
-    .explanation { font-size: 16px; color: #666; margin: 15px 0; font-style: italic; }
+    .recommendation { font-size: 48px; font-weight: 800; margin: 20px 0; padding: 25px; border-radius: 12px; text-align: center; }
+    .recommendation.take { background: linear-gradient(135deg, rgba(100, 255, 159, 0.15) 0%, rgba(100, 255, 159, 0.05) 100%); color: #64ff9f; border: 1px solid rgba(100, 255, 159, 0.3); }
+    .recommendation.pass { background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 107, 107, 0.05) 100%); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+    .recommendation.negotiate { background: linear-gradient(135deg, rgba(255, 179, 71, 0.15) 0%, rgba(255, 179, 71, 0.05) 100%); color: #ffb347; border: 1px solid rgba(255, 179, 71, 0.3); }
     
-    .breakdown { text-align: left; margin: 30px 0; }
-    .breakdown-item { background: #f8f9fa; padding: 12px; margin-bottom: 10px; border-left: 3px solid #667eea; border-radius: 4px; }
-    .breakdown-key { font-weight: 600; color: #333; }
-    .breakdown-value { color: #666; margin-top: 4px; font-size: 14px; }
+    .score { font-size: 24px; font-weight: 700; color: #00d4ff; margin: 15px 0; text-align: center; }
+    .explanation { font-size: 16px; color: #a0a0a0; margin: 15px 0; font-style: italic; text-align: center; }
     
-    .salary-data { background: #e8f4f8; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2196F3; }
-    .salary-data h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #0277BD; }
-    .salary-data p { font-size: 13px; color: #555; margin: 4px 0; }
+    .breakdown-item { background: rgba(76, 181, 255, 0.05); padding: 15px; margin-bottom: 12px; border-left: 4px solid #00d4ff; border-radius: 6px; }
+    .breakdown-key { font-weight: 700; color: #64ff9f; text-transform: capitalize; }
+    .breakdown-value { color: #b0b0b0; margin-top: 5px; font-size: 14px; }
     
-    .history-item { background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-left: 3px solid #2196F3; border-radius: 4px; }
-    .history-rec { font-weight: 600; font-size: 16px; color: #333; }
-    .history-date { font-size: 12px; color: #999; margin-top: 5px; }
+    .salary-data { background: linear-gradient(135deg, rgba(76, 181, 255, 0.1) 0%, rgba(76, 181, 255, 0.05) 100%); padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #4cb5ff; border: 1px solid rgba(76, 181, 255, 0.3); }
+    .salary-data h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #00d4ff; }
+    .salary-data p { font-size: 14px; color: #b0b0b0; margin: 6px 0; }
+    
+    .history-item { background: linear-gradient(135deg, rgba(76, 181, 255, 0.05) 0%, rgba(100, 255, 159, 0.05) 100%); padding: 18px; margin-bottom: 12px; border-left: 4px solid #4cb5ff; border-radius: 6px; border: 1px solid rgba(76, 181, 255, 0.2); }
+    .history-rec { font-weight: 700; font-size: 16px; color: #00d4ff; }
+    .history-date { font-size: 12px; color: #707080; margin-top: 8px; }
     
     .hidden { display: none; }
+    
+    @media (max-width: 768px) {
+      .landing h1 { font-size: 48px; }
+      .landing .tagline { font-size: 22px; }
+      .steps { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .app-content { padding: 25px; }
+    }
   </style>
 </head>
 <body>
@@ -82,12 +131,10 @@
       <h1>CareerMove</h1>
       <p class="tagline">Stop making job decisions emotionally.</p>
       <p class="subtitle">Get a personalized recommendation based on YOUR priorities + real market data. <strong>Free to try. No credit card.</strong></p>
-      
       <button class="cta-button" onclick="startApp()">Analyze My Next Offer →</button>
 
-      <!-- SOCIAL PROOF -->
-      <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 14px; opacity: 0.9;">
-        <p style="margin-bottom: 8px;">⭐ <strong>4.8/5</strong> from 200+ users</p>
+      <div class="social-proof">
+        <p><strong>⭐ 4.8/5</strong> from 200+ users</p>
         <p>"This app saved me from accepting a job I would've hated" - Alex, Engineer</p>
       </div>
 
@@ -112,88 +159,75 @@
         </div>
       </div>
 
-      <!-- PAIN POINTS -->
-      <div style="margin-top: 80px; padding: 40px; background: rgba(255,255,255,0.15); border-radius: 12px; text-align: left;">
-        <h2 style="font-size: 24px; margin-bottom: 20px;">The Real Cost of Getting It Wrong</h2>
-        <div style="margin-bottom: 15px;">
-          <p style="opacity: 0.95; margin-bottom: 8px;"><strong>❌ Story 1:</strong> Took a $20K raise but worked 60+ hrs/week. Left after 8 months. Lost $40K in salary + opportunity cost.</p>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <p style="opacity: 0.95; margin-bottom: 8px;"><strong>❌ Story 2:</strong> Chose "stable company." Got laid off 6 months later. Regrets not taking the growth opportunity.</p>
-        </div>
-        <div>
-          <p style="opacity: 0.95;"><strong>❌ Story 3:</strong> Ignored gut feeling. Took startup role. Company failed. 2 years wasted.</p>
-        </div>
+      <div class="pain-points">
+        <h2>The Real Cost of Getting It Wrong</h2>
+        <p><strong>❌ Story 1:</strong> Took a $20K raise but worked 60+ hrs/week. Left after 8 months. Lost $40K in salary + opportunity cost.</p>
+        <p><strong>❌ Story 2:</strong> Chose "stable company." Got laid off 6 months later. Regrets not taking the growth opportunity.</p>
+        <p><strong>❌ Story 3:</strong> Ignored gut feeling. Took startup role. Company failed. 2 years wasted.</p>
       </div>
 
-      <!-- LIVE EXAMPLE -->
-      <div style="margin-top: 80px; padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.2);">
-        <h2 style="font-size: 32px; margin-bottom: 30px;">See It In Action</h2>
-        <div style="background: rgba(0,0,0,0.2); padding: 30px; border-radius: 12px;">
-          <div style="text-align: left; margin-bottom: 20px;">
-            <p style="opacity: 0.8; font-size: 14px; margin-bottom: 10px;"><strong>YOUR PROFILE:</strong> Value work-life balance (5/5) • Want growth (4/5) • Stability matters (4/5)</p>
-            <p style="opacity: 0.8; font-size: 14px;"><strong>JOB OFFER:</strong> Senior Engineer • $95K (+12% raise) • 55 hrs/week • Series A startup</p>
-          </div>
-          <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; text-align: center;">
-            <div style="font-size: 36px; font-weight: 700; margin-bottom: 10px;">NEGOTIATE 🤝</div>
-            <p style="opacity: 0.9; font-size: 14px; margin-bottom: 15px;">Close call. The raise is good, but you're trading 15 extra hours/week for unstable growth.</p>
-            <p style="opacity: 0.8; font-size: 12px;">→ Ask for $102K + 2 remote days/week to match your priorities</p>
+      <div class="live-example">
+        <h2>See It In Action</h2>
+        <div class="example-card">
+          <p><strong>YOUR PROFILE:</strong> Balance (5/5) • Growth (4/5) • Stability (4/5)</p>
+          <p><strong>JOB OFFER:</strong> Senior Engineer • $95K (+12% raise) • 55 hrs/week • Series A startup</p>
+          <div class="example-result">
+            <div class="example-result-text">NEGOTIATE 🤝</div>
+            <p>Close call. The raise is good, but you're trading 15 extra hours/week for unstable growth.</p>
+            <p style="margin-top: 15px; font-size: 14px; color: #64ff9f;">→ Ask for $102K + 2 remote days/week</p>
           </div>
         </div>
       </div>
 
-      <!-- WHY CAREERMOVE -->
-      <div style="margin-top: 80px; padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.2); text-align: center;">
-        <h2 style="font-size: 32px; margin-bottom: 20px;">Why CareerMove?</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 30px;">
-          <div>
-            <div style="font-size: 24px; margin-bottom: 10px;">📊</div>
-            <p style="opacity: 0.9;">Not ChatGPT. We remember YOUR priorities.</p>
+      <div class="why-section">
+        <h2>Why CareerMove?</h2>
+        <div class="features-grid">
+          <div class="feature">
+            <div class="feature-icon">📊</div>
+            <p><strong>Not ChatGPT</strong> - We remember YOUR priorities.</p>
           </div>
-          <div>
-            <div style="font-size: 24px; margin-bottom: 10px;">📈</div>
-            <p style="opacity: 0.9;">Learn from every decision. Get smarter over time.</p>
+          <div class="feature">
+            <div class="feature-icon">📈</div>
+            <p><strong>Learn Over Time</strong> - See patterns in decisions.</p>
           </div>
-          <div>
-            <div style="font-size: 24px; margin-bottom: 10px;">⚡</div>
-            <p style="opacity: 0.9;">2 minutes to a recommendation. No more overthinking.</p>
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <p><strong>2 Minutes</strong> - Instant recommendations.</p>
           </div>
-          <div>
-            <div style="font-size: 24px; margin-bottom: 10px;">🎯</div>
-            <p style="opacity: 0.9;">Framework you can trust. Based on YOUR values.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div style="margin-top: 80px; padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.2);">
-        <h2 style="font-size: 32px; margin-bottom: 40px; text-align: center;">Questions?</h2>
-        <div style="display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 500px; margin: 0 auto;">
-          <div style="background: rgba(0,0,0,0.1); padding: 20px; border-radius: 8px;">
-            <p style="font-weight: 600; margin-bottom: 8px;">⏱️ How long does it take?</p>
-            <p style="opacity: 0.85; font-size: 14px;">About 2 minutes total. 1 minute for profile, 1 minute to enter offer details.</p>
-          </div>
-          <div style="background: rgba(0,0,0,0.1); padding: 20px; border-radius: 8px;">
-            <p style="font-weight: 600; margin-bottom: 8px;">🔒 Is my data private?</p>
-            <p style="opacity: 0.85; font-size: 14px;">100% private. All data stays on your device. We never see it.</p>
-          </div>
-          <div style="background: rgba(0,0,0,0.1); padding: 20px; border-radius: 8px;">
-            <p style="font-weight: 600; margin-bottom: 8px;">💰 When do I pay?</p>
-            <p style="opacity: 0.85; font-size: 14px;">Never, unless you want to. Free: 1 evaluation/month. Premium ($5/mo): unlimited.</p>
-          </div>
-          <div style="background: rgba(0,0,0,0.1); padding: 20px; border-radius: 8px;">
-            <p style="font-weight: 600; margin-bottom: 8px;">📊 How accurate is this?</p>
-            <p style="opacity: 0.85; font-size: 14px;">It's a framework based on YOUR priorities, not magic. Use it to think clearer, not replace gut instinct.</p>
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <p><strong>Your Framework</strong> - Based on YOUR values.</p>
           </div>
         </div>
       </div>
 
-      <!-- FINAL CTA -->
-      <div style="margin-top: 80px; padding: 60px 40px; background: rgba(255,255,255,0.15); border-radius: 12px; text-align: center;">
-        <h2 style="font-size: 32px; margin-bottom: 15px;">Ready to make a better decision?</h2>
-        <p style="opacity: 0.85; margin-bottom: 30px; font-size: 16px;">It takes 2 minutes. Your job decision deserves that much thought.</p>
-        <button class="cta-button" onclick="startApp()" style="display: inline-block; padding: 18px 56px; font-size: 18px;">Start Free - No Credit Card</button>
-        <p style="opacity: 0.6; margin-top: 20px; font-size: 13px;">Free forever tier available. Premium $5/mo for unlimited evaluations.</p>
+      <div class="faq">
+        <h2>Questions?</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <strong>⏱️ How long does it take?</strong>
+            <p>About 2 minutes. Profile + offer details.</p>
+          </div>
+          <div class="faq-item">
+            <strong>🔒 Is my data private?</strong>
+            <p>100% private. Data stays on your device.</p>
+          </div>
+          <div class="faq-item">
+            <strong>💰 When do I pay?</strong>
+            <p>Free: 1 eval/month. Premium ($5/mo): unlimited.</p>
+          </div>
+          <div class="faq-item">
+            <strong>📊 How accurate?</strong>
+            <p>Framework based on YOUR priorities.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="final-cta">
+        <h2>Ready to stop guessing?</h2>
+        <p>2 minutes. Your job decision deserves at least that.</p>
+        <button class="cta-button" onclick="startApp()" style="padding: 18px 56px; font-size: 18px;">Start Free - No Credit Card</button>
+        <p style="color: #909090; margin-top: 20px; font-size: 13px;">Free forever tier available. Premium $5/mo for unlimited evaluations.</p>
       </div>
     </div>
   </div>
@@ -303,9 +337,7 @@
           </div>
 
           <div class="form-group">
-            <label>
-              <input type="checkbox" id="isRemote"> Fully Remote?
-            </label>
+            <label><input type="checkbox" id="isRemote"> Fully Remote?</label>
           </div>
         </div>
 
@@ -336,6 +368,9 @@
           <h1>Decision History</h1>
         </div>
         <div id="historyContent"></div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="goToProfileScreen()" style="margin-top: 20px;">Back</button>
+        </div>
       </div>
     </div>
   </div>
@@ -345,174 +380,4 @@
 
     ['prioritySalary', 'priorityBalance', 'priorityGrowth', 'priorityStability', 'priorityRemote'].forEach(id => {
       document.getElementById(id).addEventListener('input', (e) => {
-        const name = id.replace('priority', '').toLowerCase();
-        document.getElementById(name + 'Value').textContent = e.target.value;
-      });
-    });
-
-    function startApp() {
-      document.getElementById('landingPage').style.display = 'none';
-      document.getElementById('appContainer').classList.add('show');
-    }
-
-    function showScreen(screenId) {
-      document.querySelectorAll('[id$="Screen"]').forEach(el => el.classList.add('hidden'));
-      document.getElementById(screenId).classList.remove('hidden');
-    }
-
-    function goToProfileScreen() { showScreen('profileScreen'); }
-    function goToJobScreen() { 
-      showScreen('jobScreen');
-      document.getElementById('jobTitle').value = '';
-      document.getElementById('company').value = '';
-      document.getElementById('baseSalary').value = '';
-    }
-
-    function getSalaryData(jobTitle) {
-      const ranges = {
-        'engineer': { low: 90000, high: 200000, median: 140000 },
-        'manager': { low: 100000, high: 220000, median: 160000 },
-        'designer': { low: 70000, high: 150000, median: 110000 },
-        'product': { low: 95000, high: 190000, median: 140000 },
-        'default': { low: 50000, high: 150000, median: 90000 }
-      };
-      const key = Object.keys(ranges).find(k => jobTitle.toLowerCase().includes(k)) || 'default';
-      return ranges[key];
-    }
-
-    function calculateDecisionScore(profile, job) {
-      let score = 0;
-      let breakdown = {};
-
-      const salaryChange = job.baseSalary - profile.currentSalary;
-      const salaryPercent = (salaryChange / profile.currentSalary) * 100;
-      
-      if (salaryPercent >= 15) {
-        score += profile.priority_salary * 0.5;
-        breakdown.salary = `+${salaryPercent.toFixed(1)}% raise`;
-      } else if (salaryPercent >= 5) {
-        score += profile.priority_salary * 0.2;
-        breakdown.salary = `+${salaryPercent.toFixed(1)}% raise`;
-      } else if (salaryPercent < 0) {
-        score -= profile.priority_salary * 0.3;
-        breakdown.salary = `${salaryPercent.toFixed(1)}% cut`;
-      }
-
-      const hours = job.hoursPerWeek;
-      if (hours > 50) {
-        score -= profile.priority_balance * 0.4;
-        breakdown.balance = `${hours} hrs/week - TOO MUCH`;
-      } else if (hours > 45) {
-        score -= profile.priority_balance * 0.1;
-        breakdown.balance = `${hours} hrs/week - slightly high`;
-      } else {
-        score += profile.priority_balance * 0.3;
-        breakdown.balance = `${hours} hrs/week - good`;
-      }
-
-      const stage = job.fundingStage;
-      if (stage === 'seed') {
-        score -= profile.priority_stability * 0.5;
-        breakdown.stability = `Seed startup - HIGH RISK`;
-      } else if (stage === 'series-a') {
-        score -= profile.priority_stability * 0.2;
-        breakdown.stability = `Series A - moderate risk`;
-      } else if (stage === 'growth') {
-        score += profile.priority_stability * 0.1;
-        breakdown.stability = `Growth stage - stable`;
-      } else if (stage === 'public') {
-        score += profile.priority_stability * 0.5;
-        breakdown.stability = `Public company - very safe`;
-      }
-
-      const teamSize = job.teamSize;
-      if (teamSize > 10) {
-        score += profile.priority_growth * 0.4;
-        breakdown.growth = `Large team (${teamSize}) - great mentorship`;
-      } else if (teamSize > 5) {
-        score += profile.priority_growth * 0.2;
-        breakdown.growth = `Medium team (${teamSize}) - good growth`;
-      } else if (teamSize <= 3) {
-        score -= profile.priority_growth * 0.3;
-        breakdown.growth = `Small team (${teamSize}) - limited growth`;
-      }
-
-      if (profile.priority_remote >= 4) {
-        if (job.isRemote) {
-          score += 3;
-          breakdown.remote = `Fully remote ✅`;
-        } else {
-          score -= 2;
-          breakdown.remote = `On-site`;
-        }
-      }
-
-      let recommendation = 'UNDECIDED';
-      let explanation = '';
-      
-      if (score >= 7) {
-        recommendation = 'TAKE ✅';
-        explanation = 'Strong yes. This aligns well with your priorities.';
-      } else if (score >= 4) {
-        recommendation = 'TAKE ✅';
-        explanation = 'Yes. Good overall fit.';
-      } else if (score >= 0) {
-        recommendation = 'NEGOTIATE 🤝';
-        explanation = 'Close call. Try negotiating on weak points.';
-      } else if (score >= -3) {
-        recommendation = 'PROBABLY PASS ⚠️';
-        explanation = 'Lean towards no. Better options likely exist.';
-      } else {
-        recommendation = 'PASS ❌';
-        explanation = 'Strong no. This does not fit your priorities.';
-      }
-
-      return { score: score.toFixed(1), recommendation, breakdown, explanation };
-    }
-
-    function analyzeOffer() {
-      const currentSalary = parseInt(document.getElementById('currentSalary').value);
-      const baseSalary = parseInt(document.getElementById('baseSalary').value);
-      const jobTitle = document.getElementById('jobTitle').value;
-      const company = document.getElementById('company').value;
-
-      if (!baseSalary || !jobTitle || !company) {
-        alert('Please fill in all required fields');
-        return;
-      }
-
-      const profile = {
-        currentSalary,
-        priority_salary: parseInt(document.getElementById('prioritySalary').value),
-        priority_balance: parseInt(document.getElementById('priorityBalance').value),
-        priority_growth: parseInt(document.getElementById('priorityGrowth').value),
-        priority_stability: parseInt(document.getElementById('priorityStability').value),
-        priority_remote: parseInt(document.getElementById('priorityRemote').value),
-      };
-
-      const job = {
-        baseSalary,
-        hoursPerWeek: parseInt(document.getElementById('hoursPerWeek').value),
-        fundingStage: document.getElementById('fundingStage').value,
-        teamSize: parseInt(document.getElementById('teamSize').value),
-        isRemote: document.getElementById('isRemote').checked,
-        jobTitle,
-        company
-      };
-
-      const analysis = calculateDecisionScore(profile, job);
-      const salaryData = getSalaryData(jobTitle);
-      
-      decisions.push({ ...analysis, job, salaryData, timestamp: new Date().toLocaleString() });
-      localStorage.setItem('careermoveDecisions', JSON.stringify(decisions));
-
-      displayResult(analysis, salaryData, job);
-      showScreen('resultScreen');
-    }
-
-    function displayResult(analysis, salaryData, job) {
-      const recClass = analysis.recommendation.includes('TAKE') ? 'take' : 
-                       analysis.recommendation.includes('PASS') ? 'pass' : 'negotiate';
-      const percentile = Math.round(((job.baseSalary - salaryData.low) / (salaryData.high - salaryData.low)) * 100);
-      
-      let html =
+        const name = id.replace('priority', '').toLowerCase
