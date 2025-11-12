@@ -95,6 +95,14 @@
     .salary-data h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #00d4ff; }
     .salary-data p { font-size: 14px; color: #b0b0b0; margin: 6px 0; }
     
+    .email-capture { background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(100, 255, 159, 0.1) 100%); padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid rgba(76, 181, 255, 0.3); }
+    .email-capture p { color: #a0a0a0; margin-bottom: 12px; font-size: 14px; }
+    .email-input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .email-input-row input { flex: 1; }
+    .email-input-row button { flex: 0.3; min-width: 80px; }
+    .email-status { font-size: 12px; margin-top: 8px; color: #64ff9f; }
+    .email-status.error { color: #ff6b6b; }
+    
     .history-item { background: linear-gradient(135deg, rgba(76, 181, 255, 0.05) 0%, rgba(100, 255, 159, 0.05) 100%); padding: 18px; margin-bottom: 12px; border-left: 4px solid #4cb5ff; border-radius: 6px; border: 1px solid rgba(76, 181, 255, 0.2); }
     .history-rec { font-weight: 700; font-size: 16px; color: #00d4ff; }
     .history-date { font-size: 12px; color: #707080; margin-top: 8px; }
@@ -113,14 +121,6 @@
     .comparison-new { color: #00d4ff; font-weight: 700; }
     
     .hidden { display: none; }
-    
-    .email-capture { background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(100, 255, 159, 0.1) 100%); padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid rgba(76, 181, 255, 0.3); }
-    .email-capture p { color: #a0a0a0; margin-bottom: 12px; font-size: 14px; }
-    .email-input-row { display: flex; gap: 10px; margin-bottom: 10px; }
-    .email-input-row input { flex: 1; }
-    .email-input-row button { flex: 0.3; min-width: 80px; }
-    .email-status { font-size: 12px; margin-top: 8px; color: #64ff9f; }
-    .email-status.error { color: #ff6b6b; }
     
     @media (max-width: 768px) {
       .landing h1 { font-size: 48px; }
@@ -179,7 +179,7 @@
         <p>AI analyzes your full background in 2 minutes. Let's go.</p>
         <button class="cta-button" onclick="startApp()" style="padding: 18px 56px; font-size: 18px;">Start Now - Free</button>
       </div>
-      
+
       <footer style="margin-top: 80px; padding-top: 30px; border-top: 1px solid rgba(76, 181, 255, 0.2); text-align: center;">
         <p style="color: #707080; font-size: 14px; margin-bottom: 15px;">
           <a href="privacy.html" style="color: #00d4ff; text-decoration: none; margin: 0 15px; transition: 0.3s;" onmouseover="this.style.color='#64ff9f'" onmouseout="this.style.color='#00d4ff'">Privacy Policy</a>
@@ -190,6 +190,8 @@
         </p>
         <p style="color: #606070; font-size: 13px;">&copy; 2024 CareerMove. All rights reserved.</p>
       </footer>
+    </div>
+  </div>
 
   <!-- APP -->
   <div id="appContainer" class="app-container">
@@ -870,26 +872,6 @@ Provide JSON:
       document.getElementById('resultContent').innerHTML = html;
     }
 
-    function showHistory() {
-      if (decisions.length === 0) {
-        document.getElementById('historyContent').innerHTML = '<p style="color:#a0a0a0; text-align:center; padding: 30px;">No decisions yet. Evaluate your first offer!</p>';
-      } else {
-        let html = '';
-        decisions.forEach((d) => {
-          html += `<div class="history-item">
-            <div class="history-rec">${d.recommendation} (${d.score}/10)</div>
-            <div style="color: #c0c0c0; font-weight: 500;">${d.job.jobTitle} @ ${d.job.company}</div>
-            <div style="color:#909090; font-size:13px;">
-              ${d.job.baseSalary.toLocaleString()} • ${d.job.hoursPerWeek}h/week • ${d.job.fundingStage}
-            </div>
-            <div class="history-date">${d.timestamp}</div>
-          </div>`;
-        });
-        document.getElementById('historyContent').innerHTML = html;
-      }
-      showScreen('historyScreen');
-    }
-
     function saveAnalysisToEmail() {
       const email = document.getElementById('resultEmail').value.trim();
       const statusEl = document.getElementById('emailStatus');
@@ -910,11 +892,12 @@ Provide JSON:
       statusEl.textContent = '⏳ Sending...';
 
       setTimeout(() => {
-        statusEl.textContent = '✅ Analysis sent! Check your email.';
+        statusEl.textContent = '✅ Saved! (Backend integration coming soon)';
+        statusEl.classList.remove('error');
         document.getElementById('resultEmail').value = '';
         setTimeout(() => {
           statusEl.textContent = '';
-        }, 3000);
+        }, 4000);
       }, 800);
     }
 
@@ -923,58 +906,150 @@ Provide JSON:
 
       const { analysis, salaryData, job, profile } = lastAnalysis;
       
-      let pdfContent = `CAREERMOVE - JOB OFFER ANALYSIS\n`;
-      pdfContent += `Generated: ${new Date().toLocaleString()}\n\n`;
-      
-      pdfContent += `RECOMMENDATION: ${analysis.recommendation}\n`;
-      pdfContent += `Score: ${analysis.score}/10 (${analysis.confidence}% confidence)\n\n`;
-      
-      pdfContent += `REASONING:\n${analysis.reasoning}\n\n`;
-      
-      pdfContent += `CAREER IMPACT:\n${analysis.careerImpact}\n\n`;
-      
-      pdfContent += `OFFER COMPARISON:\n`;
-      pdfContent += `Current Salary: ${profile.currentSalary.toLocaleString()}\n`;
-      pdfContent += `New Salary: ${job.baseSalary.toLocaleString()}\n`;
-      pdfContent += `Change: ${((job.baseSalary - profile.currentSalary) / profile.currentSalary * 100).toFixed(1)}%\n\n`;
-      
-      pdfContent += `STRENGTHS:\n`;
-      analysis.strengths.forEach(s => pdfContent += `• ${s}\n`);
-      pdfContent += `\n`;
-      
-      pdfContent += `WEAKNESSES:\n`;
-      analysis.weaknesses.forEach(w => pdfContent += `• ${w}\n`);
-      pdfContent += `\n`;
-      
-      if (analysis.recommendation === 'NEGOTIATE' && analysis.negotiableItems) {
-        pdfContent += `NEGOTIATION POINTS:\n`;
-        analysis.negotiableItems.forEach(n => pdfContent += `• ${n}\n`);
-        pdfContent += `\n`;
+      const htmlContent = `
+        <html>
+          <head>
+            <title>CareerMove - ${job.company} Analysis</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
+              h1 { color: #00d4ff; margin-bottom: 10px; }
+              h2 { color: #00d4ff; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #00d4ff; padding-bottom: 8px; }
+              .section { margin-bottom: 20px; }
+              .label { font-weight: bold; color: #333; }
+              .value { margin-left: 10px; color: #555; }
+              .recommendation { font-size: 24px; font-weight: bold; padding: 15px; border-radius: 8px; margin: 15px 0; }
+              .take { background-color: #d4f4dd; color: #00a341; }
+              .pass { background-color: #f4d4d4; color: #cc0000; }
+              .negotiate { background-color: #f4e8d4; color: #cc6600; }
+              ul { margin: 10px 0; }
+              li { margin: 8px 0; }
+              table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+              th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+              th { background-color: #f0f0f0; font-weight: bold; }
+            </style>
+          </head>
+          <body>
+            <h1>CareerMove - Job Offer Analysis</h1>
+            <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+            <p><strong>Company:</strong> ${job.company} | <strong>Position:</strong> ${job.jobTitle}</p>
+            
+            <h2>Recommendation</h2>
+            <div class="recommendation ${analysis.recommendation.toLowerCase().replace(' ', '-').split(' ')[0]}">
+              ${analysis.recommendation} - Score: ${analysis.score}/10 (${analysis.confidence}% confidence)
+            </div>
+            
+            <h2>Executive Summary</h2>
+            <p>${analysis.reasoning}</p>
+            
+            <h2>Career Impact</h2>
+            <p>${analysis.careerImpact}</p>
+            
+            <h2>Offer Comparison</h2>
+            <table>
+              <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>New Offer</th>
+              </tr>
+              <tr>
+                <td>Base Salary</td>
+                <td>${profile.currentSalary.toLocaleString()}</td>
+                <td>${job.baseSalary.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td>Change</td>
+                <td colspan="2">${((job.baseSalary - profile.currentSalary) / profile.currentSalary * 100).toFixed(1)}%</td>
+              </tr>
+              <tr>
+                <td>Hours/Week</td>
+                <td>${profile.currentHours}h</td>
+                <td>${job.hoursPerWeek}h</td>
+              </tr>
+              <tr>
+                <td>Hourly Rate</td>
+                <td>${(profile.currentSalary / (profile.currentHours * 52)).toFixed(0)}/hr</td>
+                <td>${(job.baseSalary / (job.hoursPerWeek * 52)).toFixed(0)}/hr</td>
+              </tr>
+            </table>
+            
+            <h2>Strengths</h2>
+            <ul>
+              ${analysis.strengths.map(s => `<li>${s}</li>`).join('')}
+            </ul>
+            
+            <h2>Weaknesses</h2>
+            <ul>
+              ${analysis.weaknesses.map(w => `<li>${w}</li>`).join('')}
+            </ul>
+            
+            ${analysis.recommendation === 'NEGOTIATE' && analysis.negotiableItems ? `
+            <h2>Negotiation Points</h2>
+            <ul>
+              ${analysis.negotiableItems.map(n => `<li>${n}</li>`).join('')}
+            </ul>
+            ` : ''}
+            
+            <h2>Market Data</h2>
+            <p><strong>Your Offer:</strong> ${job.baseSalary.toLocaleString()}</p>
+            <p><strong>Market Range:</strong> ${salaryData.low.toLocaleString()} - ${salaryData.high.toLocaleString()}</p>
+            <p><strong>Percentile:</strong> ${Math.round(((job.baseSalary - salaryData.low) / (salaryData.high - salaryData.low)) * 100)}th</p>
+            
+            <h2>Risk Factors</h2>
+            <p>${analysis.riskFactors}</p>
+            
+            <h2>Questions to Ask Employer</h2>
+            <ul>
+              ${analysis.questions.map(q => `<li>${q}</li>`).join('')}
+            </ul>
+            
+            <h2>Scoring Breakdown</h2>
+            ${Object.entries(analysis.scoringBreakdown).map(([key, val]) => `
+              <div class="section">
+                <div class="label">${key.toUpperCase()}:</div>
+                <div class="value">${val}</div>
+              </div>
+            `).join('')}
+          </body>
+        </html>
+      `;
+
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      script.onload = function() {
+        const element = document.createElement('div');
+        element.innerHTML = htmlContent;
+        
+        const opt = {
+          margin: 10,
+          filename: `CareerMove-${job.company}-Analysis.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+        };
+        
+        html2pdf().set(opt).from(element).save();
+      };
+      document.head.appendChild(script);
+    }
+
+    function showHistory() {
+      if (decisions.length === 0) {
+        document.getElementById('historyContent').innerHTML = '<p style="color:#a0a0a0; text-align:center; padding: 30px;">No decisions yet. Evaluate your first offer!</p>';
+      } else {
+        let html = '';
+        decisions.forEach((d) => {
+          html += `<div class="history-item">
+            <div class="history-rec">${d.recommendation} (${d.score}/10)</div>
+            <div style="color: #c0c0c0; font-weight: 500;">${d.job.jobTitle} @ ${d.job.company}</div>
+            <div style="color:#909090; font-size:13px;">
+              ${d.job.baseSalary.toLocaleString()} • ${d.job.hoursPerWeek}h/week • ${d.job.fundingStage}
+            </div>
+            <div class="history-date">${d.timestamp}</div>
+          </div>`;
+        });
+        document.getElementById('historyContent').innerHTML = html;
       }
-      
-      pdfContent += `RISK FACTORS:\n${analysis.riskFactors}\n\n`;
-      
-      pdfContent += `MARKET DATA:\n`;
-      pdfContent += `Your offer: ${job.baseSalary.toLocaleString()}\n`;
-      pdfContent += `Market range: ${salaryData.low.toLocaleString()} - ${salaryData.high.toLocaleString()}\n`;
-      pdfContent += `Percentile: ${Math.round(((job.baseSalary - salaryData.low) / (salaryData.high - salaryData.low)) * 100)}th\n\n`;
-      
-      pdfContent += `QUESTIONS TO ASK:\n`;
-      analysis.questions.forEach(q => pdfContent += `• ${q}\n`);
-      pdfContent += `\n`;
-      
-      pdfContent += `SCORING BREAKDOWN:\n`;
-      Object.entries(analysis.scoringBreakdown).forEach(([key, val]) => {
-        pdfContent += `${key}: ${val}\n`;
-      });
-      
-      const element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(pdfContent));
-      element.setAttribute('download', `CareerMove-${job.company}-Analysis.txt`);
-      element.style.display = 'none';
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
+      showScreen('historyScreen');
     }
   </script>
 </body>
