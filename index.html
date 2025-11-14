@@ -128,6 +128,13 @@
     .comparison-current { color: #c0c0c0; }
     .comparison-new { color: #00d4ff; font-weight: 700; }
 
+    .feedback-tab { position: fixed; bottom: 30px; right: 30px; z-index: 100; cursor: pointer; display: none; }
+    .feedback-tab.show { display: block; }
+    .feedback-tab-content { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #00d4ff 0%, #4cb5ff 100%); color: #0f0f1e; padding: 12px 18px; border-radius: 50px; box-shadow: 0 8px 25px rgba(76, 181, 255, 0.3); transition: all 0.3s; font-weight: 700; font-size: 14px; }
+    .feedback-tab:hover .feedback-tab-content { transform: scale(1.05); box-shadow: 0 12px 35px rgba(76, 181, 255, 0.5); }
+    .feedback-tab-icon { font-size: 18px; animation: float 2s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+
     .feedback-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: none; z-index: 999; animation: fadeIn 0.3s ease-out; }
     .feedback-overlay.show { display: block; }
     
@@ -159,6 +166,14 @@
   </style>
 </head>
 <body>
+  <!-- FEEDBACK TAB -->
+  <div id="feedbackTab" class="feedback-tab">
+    <div class="feedback-tab-content">
+      <span class="feedback-tab-icon">💬</span>
+      <span>Quick Feedback?</span>
+    </div>
+  </div>
+
   <!-- FEEDBACK MODAL -->
   <div id="feedbackOverlay" class="feedback-overlay"></div>
   <div id="feedbackModal" class="feedback-modal">
@@ -502,6 +517,7 @@
     function showScreen(screenId) {
       document.querySelectorAll('[id$="Screen"]').forEach(el => el.classList.add('hidden'));
       document.getElementById(screenId).classList.remove('hidden');
+      hideFeedbackTab();
     }
 
     function goToProfileScreen() { showScreen('profileScreen'); }
@@ -696,8 +712,7 @@
         displayResult(aiAnalysis, salaryData, job, profile);
         showScreen('resultScreen');
         
-        // Trigger feedback modal after 5 seconds
-        setTimeout(() => showFeedbackModal(), 5000);
+        showFeedbackTab();
       } catch (error) {
         console.error('Analysis error:', error);
         alert('Error during analysis. Please try again.');
@@ -809,7 +824,16 @@
       document.getElementById('resultContent').innerHTML = html;
     }
 
+    function showFeedbackTab() {
+      document.getElementById('feedbackTab').classList.add('show');
+    }
+
+    function hideFeedbackTab() {
+      document.getElementById('feedbackTab').classList.remove('show');
+    }
+
     function showFeedbackModal() {
+      hideFeedbackTab();
       document.getElementById('feedbackOverlay').classList.add('show');
       document.getElementById('feedbackModal').classList.add('show');
     }
@@ -819,6 +843,7 @@
       document.getElementById('feedbackModal').classList.remove('show');
       document.getElementById('feedbackScore').value = '';
       document.getElementById('feedbackText').value = '';
+      showFeedbackTab();
     }
 
     function submitFeedback() {
@@ -839,7 +864,6 @@
 
       console.log('Feedback submitted:', feedback);
       
-      // Store feedback locally for now (can integrate with Formspree or email later)
       try {
         let feedbackList = JSON.parse(localStorage.getItem('careermove_feedback') || '[]');
         feedbackList.push(feedback);
@@ -1035,6 +1059,8 @@
       }
       showScreen('historyScreen');
     }
+
+    document.getElementById('feedbackTab').addEventListener('click', showFeedbackModal);
   </script>
 </body>
 </html>
