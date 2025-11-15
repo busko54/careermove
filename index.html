@@ -545,8 +545,7 @@
       statusEl.textContent = '⏳ Signing up...';
       statusEl.classList.remove('error');
 
-      // Using Formspree - replace YOUR_FORM_ID with your actual form ID from formspree.io
-      fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      fetch('https://formspree.io/f/mjkjwvwr', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, source: 'landing' })
@@ -575,7 +574,7 @@
       statusEl.textContent = '⏳ Signing up...';
       statusEl.classList.remove('error');
 
-      fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      fetch('https://formspree.io/f/mjkjwvwr', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, source: 'result_screen' })
