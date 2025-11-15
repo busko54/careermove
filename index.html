@@ -594,6 +594,11 @@
         return;
       }
 
+      // Track signup attempt
+      gtag('event', 'email_signup_landing', {
+        'email': email
+      });
+
       statusEl.textContent = '⏳ Signing up...';
       statusEl.classList.remove('error');
 
@@ -623,6 +628,11 @@
         return;
       }
 
+      // Track signup attempt
+      gtag('event', 'email_signup_result', {
+        'email': email
+      });
+
       statusEl.textContent = '⏳ Signing up...';
       statusEl.classList.remove('error');
 
@@ -643,6 +653,7 @@
     }
 
     function startApp() {
+      gtag('event', 'start_app_clicked');
       document.getElementById('landingPage').style.display = 'none';
       document.getElementById('appContainer').classList.add('show');
     }
@@ -801,6 +812,13 @@
         alert('Please fill in job title, company, and salary');
         return;
       }
+
+      // Track the event
+      gtag('event', 'analyze_offer_clicked', {
+        'job_title': jobTitle,
+        'company': company,
+        'salary': baseSalary
+      });
 
       const btn = document.getElementById('analyzeBtn');
       btn.textContent = '⏳ AI Analyzing...';
