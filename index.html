@@ -61,7 +61,7 @@
     .app-header { display: flex; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(76, 181, 255, 0.2); }
     .back-button { background: none; border: none; font-size: 28px; cursor: pointer; margin-right: 15px; color: #00d4ff; padding: 0; transition: 0.3s; }
     .back-button:hover { transform: scale(1.1); }
-    .app-header h1 { font-size: 28px; margin: 0; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .app-header h1 { font-size: 28px; margin: 0 auto; background: linear-gradient(135deg, #00d4ff 0%, #64ff9f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     
     h1 { font-size: 32px; color: #e0e0e0; margin-bottom: 8px; }
     .subtitle { color: #a0a0a0; margin-bottom: 30px; font-size: 14px; }
@@ -279,7 +279,10 @@
     <div class="app-content">
       <!-- PROFILE SCREEN -->
       <div id="profileScreen">
-        <h1>Your Background</h1>
+        <div class="app-header">
+          <button class="back-button" onclick="goToLanding()">←</button>
+          <h1>Your Background</h1>
+        </div>
         <p class="subtitle">Upload your resume or tell us about your career</p>
         
         <div class="section">
@@ -603,6 +606,11 @@
 
     function goToProfileScreen() { showScreen('profileScreen'); }
     function goToJobScreen() { showScreen('jobScreen'); }
+
+    function goToLanding() {
+      document.getElementById('appContainer').classList.remove('show');
+      document.getElementById('landingPage').style.display = 'flex';
+    }
 
     async function handleResumeUpload(event) {
       const file = event.target.files[0];
