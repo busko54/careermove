@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobFit - Job Decision Analyzer</title>
+  <title>OfferFit - Job Decision Analyzer</title>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MWGBVLDZTW"></script>
 <script>
@@ -211,7 +211,7 @@
   <!-- LANDING PAGE -->
   <div id="landingPage" class="landing">
     <div class="landing-content">
-      <h1>JobFit</h1>
+      <h1>OfferFit</h1>
       <p class="tagline">Stop making job decisions emotionally.</p>
       <p class="subtitle">AI-powered analysis based on YOUR background, priorities & market data. <strong>Free. No credit card.</strong></p>
       <button class="cta-button" onclick="startApp()">Analyze My Next Offer →</button>
@@ -268,9 +268,9 @@
           <span style="color: #707080;">|</span>
           <a href="terms.html" style="color: #00d4ff; text-decoration: none; margin: 0 15px; transition: 0.3s;" onmouseover="this.style.color='#64ff9f'" onmouseout="this.style.color='#00d4ff'">Terms of Service</a>
           <span style="color: #707080;">|</span>
-          <a href="mailto:support@JobFit.app" style="color: #00d4ff; text-decoration: none; margin: 0 15px; transition: 0.3s;" onmouseover="this.style.color='#64ff9f'" onmouseout="this.style.color='#00d4ff'">Contact</a>
+          <a href="mailto:support@OfferFit.app" style="color: #00d4ff; text-decoration: none; margin: 0 15px; transition: 0.3s;" onmouseover="this.style.color='#64ff9f'" onmouseout="this.style.color='#00d4ff'">Contact</a>
         </p>
-        <p style="color: #606070; font-size: 13px;">&copy; 2024 JobFit. All rights reserved.</p>
+        <p style="color: #606070; font-size: 13px;">&copy; 2024 OfferFit. All rights reserved.</p>
       </footer>
     </div>
   </div>
@@ -1063,9 +1063,9 @@
       console.log('Feedback submitted:', feedback);
       
       try {
-        let feedbackList = JSON.parse(localStorage.getItem('JobFit_feedback') || '[]');
+        let feedbackList = JSON.parse(localStorage.getItem('OfferFit_feedback') || '[]');
         feedbackList.push(feedback);
-        localStorage.setItem('JobFit_feedback', JSON.stringify(feedbackList));
+        localStorage.setItem('OfferFit_feedback', JSON.stringify(feedbackList));
       } catch (e) {
         console.log('Feedback stored in memory');
       }
@@ -1115,7 +1115,7 @@
       const htmlContent = `
         <html>
           <head>
-            <title>JobFit - ${job.company} Analysis</title>
+            <title>OfferFit - ${job.company} Analysis</title>
             <style>
               body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
               h1 { color: #00d4ff; margin-bottom: 10px; }
@@ -1135,7 +1135,7 @@
             </style>
           </head>
           <body>
-            <h1>JobFit - Job Offer Analysis</h1>
+            <h1>OfferFit - Job Offer Analysis</h1>
             <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
             <p><strong>Company:</strong> ${job.company} | <strong>Position:</strong> ${job.jobTitle}</p>
             
@@ -1227,7 +1227,7 @@
         
         const opt = {
           margin: 10,
-          filename: `JobFit-${job.company}-Analysis.pdf`,
+          filename: `OfferFit-${job.company}-Analysis.pdf`,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2 },
           jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
