@@ -15,6 +15,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
   <style>
+    .payment-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: none; z-index: 999; }
+.payment-overlay.show { display: block; }
+
+.payment-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px; border-radius: 12px; border: 1px solid rgba(76, 181, 255, 0.4); display: none; z-index: 1000; width: 90%; max-width: 500px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7); }
+.payment-modal.show { display: block; }
+.payment-modal h3 { color: #00d4ff; font-size: 18px; margin-bottom: 8px; font-weight: 700; }
+.payment-modal p { color: #a0a0a0; font-size: 13px; margin-bottom: 15px; }
+
+.plan-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.plan-option { background: rgba(76, 181, 255, 0.1); padding: 12px; border-radius: 8px; border: 2px solid rgba(76, 181, 255, 0.3); cursor: pointer; text-align: center; }
+.plan-option.selected { border-color: #00d4ff; background: rgba(76, 181, 255, 0.2); }
+.plan-label { color: #00d4ff; font-weight: 700; font-size: 12px; }
+.plan-price { font-size: 20px; font-weight: 800; color: #64ff9f; }
+.plan-desc { color: #a0a0a0; font-size: 11px; }
+
+#card-element { padding: 12px; border: 1px solid rgba(76, 181, 255, 0.3); background: rgba(76, 181, 255, 0.05); border-radius: 6px; margin-bottom: 12px; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #0f0f1e; color: #e0e0e0; line-height: 1.6; }
     
@@ -177,6 +193,38 @@
   </style>
 </head>
 <body>
+  <!-- PAYMENT MODAL -->
+<div id="paymentOverlay" class="payment-overlay"></div>
+<div id="paymentModal" class="payment-modal">
+  <h3>💳 Unlock Full Analysis</h3>
+  <p>Get detailed recommendations, negotiation strategies & market insights.</p>
+  
+  <div class="plan-options">
+    <div class="plan-option selected" id="payOption1" onclick="selectPayOption('once')">
+      <p class="plan-label">ONE-TIME</p>
+      <p class="plan-price">$2.99</p>
+      <p class="plan-desc">This analysis only</p>
+    </div>
+    <div class="plan-option" id="payOption2" onclick="selectPayOption('monthly')">
+      <p class="plan-label">MONTHLY ⭐</p>
+      <p class="plan-price">$9.99</p>
+      <p class="plan-desc">Unlimited analyses</p>
+    </div>
+  </div>
+
+  <form id="paymentForm">
+    <div id="card-element"></div>
+    <div id="card-errors" style="color: #ff6b6b; margin-bottom: 15px;"></div>
+    <button type="submit" class="btn-primary" id="submitPayment">Pay $2.99</button>
+    <button type="button" class="btn-secondary" onclick="closePaymentModal()" style="margin-left: 10px;">Cancel</button>
+  </form>
+
+  <div id="paymentSuccess" style="display: none; text-align: center;">
+    <p style="font-size: 48px; margin-bottom: 15px;">✅</p>
+    <p style="color: #64ff9f; font-weight: 700; margin-bottom: 10px;">Payment successful!</p>
+    <button type="button" class="btn-primary" onclick="completePayment()" style="width: 100%;">View Analysis</button>
+  </div>
+</div>
   <!-- FEEDBACK TAB -->
   <div id="feedbackTab" class="feedback-tab">
     <div class="feedback-tab-content">
@@ -808,6 +856,7 @@
       const baseSalary = parseInt(document.getElementById('baseSalary').value);
       const jobTitle = document.getElementById('jobTitle').value;
       const company = document.getElementById('company').value;
+      showPaymentModal();
 
       if (!baseSalary || !jobTitle || !company) {
         alert('Please fill in job title, company, and salary');
@@ -1263,18 +1312,75 @@
     let stripe = null;
 let elements = null;
 let cardElement = null;
+let selectedPaymentPlan = 'once';
 
-function initStripe() {
+async function initStripe() {
   if (stripe) return;
-  stripe = Stripe('pk_test_YOUR_STRIPE_PUBLISHABLE_KEY_HERE');
+  stripe = Stripe('pk_live_51SVZ8kLwfVOy2VdFaFArPFoA3RYVC5QPif3hOkFr88LufLfXeDGBosbqxmPtJ9ntwNwSnzErfP1E10jS06R34tMU00RgkIjmqs
+');
   elements = stripe.elements();
   cardElement = elements.create('card');
+  cardElement.mount('#card-element');
 }
 
 function showPaymentModal() {
   document.getElementById('paymentOverlay').classList.add('show');
   document.getElementById('paymentModal').classList.add('show');
+  document.getElementById('paymentForm').style.display = 'block';
+  document.getElementById('paymentSuccess').style.display = 'none';
   initStripe();
+}
+
+function closePaymentModal() {
+  document.getElementById('paymentOverlay').classList.remove('show');
+  document.getElementById('paymentModal').classList.remove('show');
+}
+
+function selectPayOption(plan) {
+  selectedPaymentPlan = plan;
+  document.getElementById('payOption1').classList.toggle('selected', plan === 'once');
+  document.getElementById('payOption2').classList.toggle('selected', plan === 'monthly');
+  document.getElementById('submitPayment').textContent = plan === 'once' ? 'Pay $2.99' : 'Subscribe $9.99/mo';
+}
+
+document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const submitBtn = document.getElementById('submitPayment');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '⏳ Processing...';
+
+  try {
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement
+    });
+
+    if (error) throw new Error(error.message);
+
+    const amount = selectedPaymentPlan === 'monthly' ? 999 : 299;
+    const response = await fetch('/api/process-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount, planType: selectedPaymentPlan })
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      document.getElementById('paymentForm').style.display = 'none';
+      document.getElementById('paymentSuccess').style.display = 'block';
+    } else {
+      throw new Error(result.error);
+    }
+  } catch (error) {
+    document.getElementById('card-errors').textContent = error.message;
+    submitBtn.disabled = false;
+    submitBtn.textContent = selectedPaymentPlan === 'monthly' ? 'Subscribe $9.99/mo' : 'Pay $2.99';
+  }
+});
+
+function completePayment() {
+  closePaymentModal();
+  showScreen('resultScreen');
 }
 
 function closePaymentModal() {
