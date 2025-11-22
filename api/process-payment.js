@@ -18,14 +18,13 @@ module.exports = async function handler(req, res) {
         currency: 'usd',
         payment_method: paymentMethodId,
         confirm: true,
-        description: `OfferFit - Single Analysis`
+        description: 'OfferFit - Single Analysis'
       });
 
-      return res.status(200).json({ 
-        success: true, 
+      return res.status(200).json({
+        success: true,
         paymentId: paymentIntent.id
       });
-
     } else if (planType === 'monthly') {
       const customer = await stripe.customers.create({
         email: email || 'customer@offerfit.app',
@@ -48,23 +47,16 @@ module.exports = async function handler(req, res) {
         payment_settings: { save_default_payment_method: 'on_subscription' }
       });
 
-      return res.status(200).json({ 
-        success: true, 
+      return res.status(200).json({
+        success: true,
         subscriptionId: subscription.id
       });
     }
-
   } catch (error) {
     console.error('Stripe error:', error);
-    return res.status(500).json({ error: 'Payment failed', details: error.message });
+    return res.status(500).json({
+      error: 'Payment failed',
+      details: error.message
+    });
   }
-}
-```
-
-3. **In your Vercel dashboard:**
-   - Go to Settings → Environment Variables
-   - Add: `STRIPE_SECRET_KEY` = your secret key from Stripe
-
-4. **In your HTML code, replace:**
-```
-   stripe = Stripe('pk_live_51SVZ8kLwfVOy2VdFaFArPFoA3RYVC5QPif3hOkFr88LufLfXeDGBosbqxmPtJ9ntwNwSnzErfP1E10jS06R34tMU00RgkIjmqs');
+};
