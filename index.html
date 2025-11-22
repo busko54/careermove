@@ -1320,14 +1320,14 @@
     }
 
     document.getElementById('feedbackTab').addEventListener('click', showFeedbackModal);
-    let stripe = null;
+   let stripe = null;
 let elements = null;
 let cardElement = null;
 let selectedPaymentPlan = 'once';
 
 async function initStripe() {
   if (stripe) return;
-  stripe = Stripe('pk_test_51SVZ8uLhb2vCBQSrTEJqexiDJawTqydycE5ytPrRzXtBh9DhEBzzXIkxYTrY6NxPLEinTHZiDsvkEZgcwI7Yn12A00pFhJdeai');
+  stripe = Stripe('pk_test_51SVZ8kLwfVOy2VdFaFArPFoA3RYVC5QPif3hOkFr88LufLfXeDGBosbqxmPtJ9ntwNwSnzErfP1E10jS06R34tMU00RgkIjmqs');
   elements = stripe.elements();
   cardElement = elements.create('card');
   cardElement.mount('#card-element');
@@ -1386,45 +1386,12 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
     submitBtn.disabled = false;
     submitBtn.textContent = selectedPaymentPlan === 'monthly' ? 'Subscribe $9.99/mo' : 'Pay $2.99';
   }
-});  e.preventDefault();
-  const submitBtn = document.getElementById('submitPayment');
-  submitBtn.disabled = true;
-  submitBtn.textContent = '⏳ Processing...';
-
-  try {
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement
-    });
-
-    if (error) throw new Error(error.message);
-
-    const amount = selectedPaymentPlan === 'monthly' ? 999 : 299;
-    const response = await fetch('/api/process-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount, planType: selectedPaymentPlan })
-    });
-
-    const result = await response.json();
-    if (result.success) {
-      document.getElementById('paymentForm').style.display = 'none';
-      document.getElementById('paymentSuccess').style.display = 'block';
-    } else {
-      throw new Error(result.error);
-    }
-  } catch (error) {
-    document.getElementById('card-errors').textContent = error.message;
-    submitBtn.disabled = false;
-    submitBtn.textContent = selectedPaymentPlan === 'monthly' ? 'Subscribe $9.99/mo' : 'Pay $2.99';
-  }
 });
 
 function completePayment() {
   closePaymentModal();
   showScreen('resultScreen');
 }
-
 function closePaymentModal() {
   document.getElementById('paymentOverlay').classList.remove('show');
   document.getElementById('paymentModal').classList.remove('show');
